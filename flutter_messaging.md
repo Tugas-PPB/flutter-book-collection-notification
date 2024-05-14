@@ -110,7 +110,131 @@ Follow the steps listed in this link: https://firebase.google.com/docs/flutter/s
 
   ![image](https://github.com/Tugas-PPB/flutter-book-collection-notification/assets/114855785/e496244b-7d88-484c-8725-d0149ed32bb0)
 
+### Handling tap on notification
 
+In this example we will open a specific page in our app when tapping the notification
+
+- Add this line to your main.dart before the main function to create a navigator key
+
+  ```dart
+  final navigatorKey = GlobalKey<NavigatorState>();
+  ```
+
+  This will help us later when opening a specific page
+  
+- Pass the navigatorKey variable into the material app constructor named parameter navigatorKey
+
+  Example
+
+  ```dart
+  class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+  // This widget is the root of your application.
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        themeMode: ThemeMode.dark,
+        theme: ThemeData(
+          primaryColor: Colors.black,
+          scaffoldBackgroundColor: Colors.blueGrey[900],
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.transparent,
+            iconTheme: IconThemeData(
+              color: Colors.white
+            )
+          ),
+          useMaterial3: true,
+        ),
+        home: const BooksPage(),
+        // The navigatorKey we created earlier
+        navigatorKey: navigatorKey,
+      );
+    }
+  }
+  ```
+
+  Now, there are many ways to open a page in flutter. The one i'm going to use in this tutorial is via a named route inside material app constructor
+
+  Example named route
+
+  ```dart
+  // Other code
+  return MaterialApp(
+    // Other code
+    routes: {
+      '/add_book_page': (context) => const YourPageHere()
+    },
+  );
+  // Other code
+  ```
+
+- Create a method to handle notification message inside your service class
+
+  Message handling example
+  
+  ```dart
+  void handleMessage(RemoteMessage? message) {
+    if(message == null) return;
+
+    // Some message processsing or other stuff
+
+    // Here we used the navigatorKey from earlier to push a named route for our desired page
+    navigatorKey.currentState?.pushNamed(
+      '/add_book_page',
+      // This arguments named parameter will pass the data into your page
+      arguments: message
+    );
+  }
+  ```
+
+- Create a function to initialize our push notification settings
+
+  Example
+
+  ```dart
+  Future<void> initPushNotifications() async {
+    // Handle the notification if the app was previously closed and now opened
+    _firebaseMessaging.getInitialMessage().then(handleMessage);
+
+    // Attach an event listener to handle the message
+    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+  }
+  ```
+
+- Add initPushNotifications method into your initNotifications method in your service class
+
+  ```dart
+  Future<void> initNotifications() async {
+    await _firebaseMessaging.requestPermission();
+
+    final fCMToken = await _firebaseMessaging.getToken();
+
+    print('firebase messaging token: $fCMToken');
+
+    await initPushNotifications();
+  }
+  ```
+
+Now you are basically set to handle the notification and opening a specific page. To get the data in that specific page, simply use this line of code:
+
+```dart
+ModalRoute.of(context)?.settings.arguments as RemoteMessage
+```
+
+as an example, i will get the notification title
+
+```dart
+(ModalRoute.of(context)?.settings.arguments as RemoteMessage).notification?.title
+```
+
+And now when clicking the notification, my app will open the add book page with the description being the notification title
+
+![image](https://github.com/Tugas-PPB/flutter-book-collection-notification/assets/114855785/010132c7-c831-4f97-a4a2-7493744dab9c)
+
+  
 
 
 
