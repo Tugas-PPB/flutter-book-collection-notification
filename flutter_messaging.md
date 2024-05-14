@@ -43,6 +43,25 @@ Follow the steps listed in this link: https://firebase.google.com/docs/flutter/s
   }
   ```
 
+- Add the following line to your main.dart inside the main function to run initNotifications method
+
+  ```dart
+  await FirebaseMessagingAPI().initNotifications();
+  ```
+
+  Now your main function may look like this:
+
+  ```dart
+  void main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await FirebaseMessagingAPI().initNotifications();
+    runApp(const MyApp());
+  }
+  ```
+
   
 
 
