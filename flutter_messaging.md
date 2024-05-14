@@ -183,6 +183,7 @@ In this example we will open a specific page in our app when tapping the notific
 
     // Here we used the navigatorKey from earlier to push a named route for our desired page
     navigatorKey.currentState?.pushNamed(
+      // Your named route
       '/add_book_page',
       // This arguments named parameter will pass the data into your page
       arguments: message
