@@ -1,16 +1,19 @@
-import 'package:ets_ppb/widgets/book_detail.dart';
+import 'package:firebase_test_app/db/books_firestore.dart';
+import 'package:firebase_test_app/widgets/book_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:ets_ppb/db/books_database.dart';
-import 'package:ets_ppb/model/book.dart';
-import 'package:ets_ppb/pages/edit_books_page.dart';
+import 'package:firebase_test_app/db/books_database.dart';
+import 'package:firebase_test_app/model/book.dart';
+import 'package:firebase_test_app/pages/edit_books_page.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class BookDetailPage extends StatefulWidget {
-  final int noteId;
+  final String noteId;
+  final Function? update;
+  final BooksFirestoreService booksFirestoreService;
 
-  const BookDetailPage({required this.noteId, super.key});
+  const BookDetailPage({this.update, required this.noteId, required this.booksFirestoreService, super.key});
 
   @override
   State<BookDetailPage> createState() => _BookDetailPageState();
@@ -30,7 +33,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
     setState(() {
       isLoading = true;
     });
-    Book loaded = await BooksDatabase.instance.readBook(widget.noteId);
+    Book loaded = await widget.booksFirestoreService.readBook(widget.noteId);
     setState(() {
       isLoading = false;
       note = loaded;
@@ -54,7 +57,8 @@ class _BookDetailPageState extends State<BookDetailPage> {
   Widget deleteButton() {
     return IconButton(
       onPressed: () {
-        BooksDatabase.instance.delete(note.id!);
+        // BooksDatabase.instance.delete(note.id!);
+        widget.booksFirestoreService.deleteBook(widget.noteId);
         Navigator.pop(context);
       },
       icon: const Icon(Icons.delete)
@@ -66,7 +70,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
       onPressed: () async {
         await Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => AddEditBookPage(note: note,)
+            builder: (context) => AddEditBookPage(note: note, docID: widget.noteId, update: widget.update,)
           )
         );
         updateBook();

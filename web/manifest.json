@@ -1,6 +1,6 @@
 {
-    "name": "ets_ppb",
-    "short_name": "ets_ppb",
+    "name": "firebase_test_app",
+    "short_name": "firebase_test_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

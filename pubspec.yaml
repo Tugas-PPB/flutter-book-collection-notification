@@ -1,4 +1,4 @@
-name: ets_ppb
+name: firebase_test_app
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -40,6 +40,9 @@ dependencies:
   path: ^1.9.0
   intl: ^0.19.0
   transparent_image: ^2.0.1
+  firebase_core: ^2.31.0
+  cloud_firestore: ^4.17.3
+  firebase_messaging: ^14.9.2
 
 dev_dependencies:
   flutter_test:

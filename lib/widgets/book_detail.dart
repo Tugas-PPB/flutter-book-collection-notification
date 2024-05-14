@@ -1,4 +1,4 @@
-import 'package:ets_ppb/model/book.dart';
+import 'package:firebase_test_app/model/book.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';

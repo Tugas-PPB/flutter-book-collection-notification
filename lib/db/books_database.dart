@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:ets_ppb/model/book.dart';
+import 'package:firebase_test_app/model/book.dart';
 
 class BooksDatabase {
   static final BooksDatabase instance = BooksDatabase._init();

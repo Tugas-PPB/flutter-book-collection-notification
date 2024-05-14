@@ -1,11 +1,15 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_test_app/db/books_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ets_ppb/db/books_database.dart';
-import 'package:ets_ppb/model/book.dart';
+import 'package:firebase_test_app/db/books_database.dart';
+import 'package:firebase_test_app/model/book.dart';
 import 'package:path/path.dart' as Path;
 
 class AddEditBookPage extends StatefulWidget {
   final Book? note;
-  const AddEditBookPage({this.note, super.key});
+  final String? docID;
+  final Function? update;
+  const AddEditBookPage({this.note, this.update, this.docID, super.key});
 
   @override
   State<AddEditBookPage> createState() => _AddEditBookPageState();
@@ -13,6 +17,7 @@ class AddEditBookPage extends StatefulWidget {
 
 class _AddEditBookPageState extends State<AddEditBookPage> {
   final _formkey = GlobalKey<FormState>();
+  final booksFirestoreService = BooksFirestoreService();
   late String onChangedTitle;
   late String onChangedCoverUrl;
   late String onChangedDescription;
@@ -101,7 +106,7 @@ class _AddEditBookPageState extends State<AddEditBookPage> {
                 ),
                 TextFormField(
                   maxLines: null,
-                  initialValue: widget.note?.description,
+                  initialValue: widget.note?.description ?? (ModalRoute.of(context)?.settings.arguments as RemoteMessage).notification?.title ,
                   validator: (value) {
                     if(value != null && value.isEmpty) return 'Book cannot be empty';
                     return null;
@@ -147,11 +152,11 @@ class _AddEditBookPageState extends State<AddEditBookPage> {
             print({'updated note is: id ${widget.note!.id}'});
             print(widget.note!.toJson());
 
-            BooksDatabase.instance.update(updated);
+            // BooksDatabase.instance.update(updated);
+            booksFirestoreService.updateBook(widget.docID!, updated);
+            widget.update?.call();
           } else {
-            BooksDatabase.instance.create(
-              Book(title: onChangedTitle, coverImageUrl: onChangedCoverUrl, description: onChangedDescription, createdTime: DateTime.now())
-            );
+            booksFirestoreService.addBook(Book(title: onChangedTitle, coverImageUrl: onChangedCoverUrl, description: onChangedDescription, createdTime: DateTime.now()));
           }
           Navigator.pop(context);
         }
