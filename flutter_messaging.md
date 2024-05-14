@@ -22,7 +22,7 @@ Follow the steps listed in this link: https://firebase.google.com/docs/flutter/s
 
 ## Notification setup
 
-### Creating a service class
+### Creating a service class and sending first notification
 
 - Create a dart file that will contain your service class. For example:
   
@@ -61,6 +61,41 @@ Follow the steps listed in this link: https://firebase.google.com/docs/flutter/s
     runApp(const MyApp());
   }
   ```
+
+- Rebuild your app
+
+  Simply rebuild your app by stopping your previous debug session and starting a new one by clicking the run and debug button (in vscode)
+
+  ![image](https://github.com/Tugas-PPB/flutter-book-collection-notification/assets/114855785/09f11d83-33e6-47b8-bdb5-b75ace31ba2e)
+
+  Find and copy your token in the debug console
+
+  ![image](https://github.com/Tugas-PPB/flutter-book-collection-notification/assets/114855785/51bb1416-0c73-410c-8b4c-b6e5cc666511)
+
+- Create test notification in firebase console
+
+  Open your firebase console and click on Engage > Messaging inside Product Categories to access Firebase Cloud Messaging feature
+
+  ![image](https://github.com/Tugas-PPB/flutter-book-collection-notification/assets/114855785/5f3c31ce-d5e4-443d-9102-eb22a555f1e2)
+
+  Click on create your first campaign
+
+  ![image](https://github.com/Tugas-PPB/flutter-book-collection-notification/assets/114855785/c25f5cb4-84f5-47e9-b914-a77c39629abe)
+
+  A Popup will open and select firebase notification messages
+
+  ![image](https://github.com/Tugas-PPB/flutter-book-collection-notification/assets/114855785/5008bb86-c18b-4f47-b6e7-b18e18aa9805)
+
+
+  
+
+
+
+
+
+  
+
+
 
   
 
